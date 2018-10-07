@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Message from './Message';
-
-import TronWeb from 'tronweb';
 
 const contracts = require('./config/contracts');
 
@@ -16,128 +13,103 @@ class App extends Component {
             messages: {},
             topMessages: [],
             latestMessages: [],
-            totalMessages: -1,
-            lastShown: 0,
-            newMessage: "",
-            awaitingTronWeb: true
+            newMessage: ""
         };
 
-
         this.initialize();
-        //console.log(await contract.methods.getMessage(0).call());
-        //const result = await contract.methods.postMessage(message).send();
-        //console.log(result);
-    }
-
-    static hextoString(hex) {
-        const arr = hex.split("");
-        let out = "";
-
-        for (let i = 0; i < arr.length / 2; i++) {
-            const tmp = `0x${arr[i * 2]}${arr[i * 2 + 1]}`;
-            const charValue = String.fromCharCode(tmp);
-
-            out += charValue;
-        }
-
-        return out
-    }
-
-    async showBetween(start, end) {
-        if (start < 0)
-            start = 0;
-        console.log(`adding recent between ${start} and ${end}`);
-        const latest = this.state.latestMessages;
-        for (let i = start; i < end; i++) {
-            this.initMessage(i);
-            latest.unshift(i);
-        }
-        console.log(latest);
-        this.setState({
-            latestMessages: latest
-        });
-    }
-
-    async initializeTopId(i) {
-        const current = await this.contract.methods.topPosts(i).call();
-        const id = parseInt(current.id.toString());
-        this.initMessage(id);
-
-        const top = this.state.topMessages;
-        top[i] = id;
-        this.setState({
-            topMessages: top
-        });
-    }
-
-    async initializeTop() {
-        for (let i = 0; i < 20; i++) {
-            this.initializeTopId(i);
-        }
     }
 
     async initialize(attempts = 0) {
         if (!window.tronWeb || window.tronWeb.ready !== true) {
-            console.log('awaiting tronweb...');
-            if (attempts > 100)
-                return;
-            setTimeout(() => {
+            console.log('Waiting for tronweb to be injected...');
+            return setTimeout(() => {
                 this.initialize(attempts++);
             }, 50);
-            return;
-        } else {
-            console.log(`tronweb found!. ready state: ${window.tronWeb.ready}`);
-            console.log(window.tronWeb);
         }
+
         const TRXMessages = contracts["TRXMessages.sol:TRXMessages"];
-        this.tronWeb = window.tronWeb;
         this.contract = window.tronWeb.contract(TRXMessages.abi, TRXMessages.address);
+
+        this.contract.methods.MessageChange().watch((err, event) => {
+            if (err)
+                return 'failed to bind event listener';
+            this.updateMessage(parseInt(event.result.id));
+        });
 
         this.initializeTop();
         await this.loadCurrent();
     }
 
-    async loadCurrent() {
-        const current = await this.contract.methods.current().call();
-        if (current > this.state.totalMessages) {
-            await this.showBetween(this.state.totalMessages, current);
-            this.setState({
-                totalMessages: current
-            });
+    /*loads the 20 items from the top list in the contract*/
+    async initializeTop() {
+        for (let i = 0; i < 20; i++) {
+            (async (j) => {
+                console.log("LOADING " + j);
+                const current = await this.contract.methods.topPosts(j).call();
+                console.log(current);
+                this.updateMessage(parseInt(current.id.toString()));
+            })(i);
         }
-        setTimeout(() => {
-            this.loadCurrent();
-        }, 1000);
     }
 
-    initMessage(id) {
-        if (!this.state.messages[id]) {
-            console.log(`loadMessage ${id}`);
-            const messages = this.state.messages;
+    async updateMessage(id) {
+        console.log(`updating: ${id}`);
+        let messages = this.state.messages;
+
+        /*placeholder while loading*/
+        if (!messages[id]) {
             messages[id] = {
                 status: "LOADING",
+                id
             };
+            console.log('initializing ' + id);
+            let recent = this.state.latestMessages;
+            recent.push(id);
+            recent = recent.sort().reverse();
             this.setState({
-                messages: messages
+                messages,
+                latestMessages: recent
             });
-            this.loadMessage(id);
+        }
+
+        /*load message information*/
+        const message = await this.contract.methods.getMessage(id).call();
+        messages = this.state.messages;
+        messages[id] = {
+            status: 'LOADED',
+            poster: window.tronWeb.address.fromHex(message[0]),
+            message: message[1],
+            tips: message[2].div(1000000).toString(),
+            tippers: message[3].toString(),
+            id
+        };
+
+        if (message[2].gt(0) && (this.state.topMessages.length < 20 || (message[2].gt(this.state.topMessages[this.state.topMessages.length - 1])))) {
+            //update top posts if this messages is tipped, and either in top20 or better than the worst in the top list
+            let topMessages = this.state.topMessages;
+            topMessages.push(id);
+            topMessages = [...new Set(topMessages)];
+            topMessages = topMessages.sort((a, b) => {
+                return messages[b].tips - messages[a].tips;
+            });
+            this.setState({
+                messages,
+                topMessages
+            });
+        } else {
+            this.setState({
+                messages
+            });
         }
     }
 
-    async loadMessage(id) {
-        const message = await this.contract.methods.getMessage(id).call();
-        const messages = this.state.messages;
 
-        messages[id] = {
-            status: 'LOADED',
-            poster: this.tronWeb.address.fromHex(message[0]),
-            message: message[1],
-            tips: message[2].div(1000000).toString(),
-            tippers: message[3].toString()
-        };
-        this.setState({
-            messages
-        });
+    async loadCurrent() {
+        let current = await this.contract.methods.current().call()
+        let start = current < 20 ? 0 : current - 20;
+        for (let i = start; i < current; i++) {
+            this.updateMessage(i);
+        }
     }
 
     newMessageChange(event) {
@@ -146,10 +118,8 @@ class App extends Component {
 
     async submitMessage() {
         if (this.state.newMessage.length > 0) {
-            console.log('sending: ' + this.state.newMessage);
             const result = await this.contract.methods.postMessage(this.state.newMessage).send({callValue: 1000000});
-            console.log('result');
-            console.log(result);
+            console.log(`posted message. txID: ${result}`);
         }
     }
 
