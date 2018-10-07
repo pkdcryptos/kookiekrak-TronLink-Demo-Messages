@@ -85,9 +85,9 @@ contract TRXMessages {
         }
     }
 
-    function getMessage(uint id) public view returns (address, string, uint, uint){
+    function getMessage(uint id) public view returns (address, string, uint, uint, uint){
         Message memory m = messages[id];
-        return (m.creator, m.message, m.tips, m.tippers);
+        return (m.creator, m.message, m.tips, m.tippers, m.time);
     }
 
 }

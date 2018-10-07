@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
 
+import TimeAgo from 'react-timeago'
+
 import TronWeb from 'tronweb';
 
 const contracts = require('./config/contracts');
@@ -56,7 +58,7 @@ class Message extends Component {
                 <div key={id} className="row message">
                     <div className="col-lg-12 message-message">{message.message}</div>
                     <div className="col-lg-12 message-poster">By <span
-                        className="white">{message.poster}</span> on 2018-10-01 20:24
+                        className="white">{message.poster}</span> <TimeAgo date={message.time}/>
                     </div>
 
                     <div className="col-lg-12">

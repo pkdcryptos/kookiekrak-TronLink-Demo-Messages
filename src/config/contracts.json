@@ -1,6 +1,6 @@
 {
     "TRXMessages.sol:TRXMessages": {
-        "address": "41c48fc1b6fda078e840e7f736c37eb59087b4ae4d",
+        "address": "414f85e889c3ad86045e3bd3fb138ef82cd77d9fa8",
         "abi": [
             {
                 "constant": true,
@@ -82,6 +82,10 @@
                     {
                         "name": "",
                         "type": "string"
+                    },
+                    {
+                        "name": "",
+                        "type": "uint256"
                     },
                     {
                         "name": "",

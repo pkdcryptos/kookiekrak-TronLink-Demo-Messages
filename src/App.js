@@ -65,7 +65,9 @@ class App extends Component {
             console.log('initializing ' + id);
             let recent = this.state.latestMessages;
             recent.push(id);
-            recent = recent.sort().reverse();
+            recent = recent.sort((a, b) => {
+                return parseInt(b) - parseInt(a)
+            });
             this.setState({
                 messages,
                 latestMessages: recent
@@ -81,8 +83,11 @@ class App extends Component {
             message: message[1],
             tips: message[2].div(1000000).toString(),
             tippers: message[3].toString(),
+            time: parseInt(message[4]) * 1000,
             id
         };
+        console.log(message);
+        console.log(`time ${message[4]}`);
 
         if (message[2].gt(0) && (this.state.topMessages.length < 20 || (message[2].gt(this.state.topMessages[this.state.topMessages.length - 1])))) {
             //update top posts if this messages is tipped, and either in top20 or better than the worst in the top list
