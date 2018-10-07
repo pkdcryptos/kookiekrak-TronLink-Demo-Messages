@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "big-number": "^1.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4",
     "react-timeago": "^4.1.9",
-    "tronweb": "tronprotocol/tron-web"
+    "tronweb": "tronprotocol/tron-web",
+    "truffle": "^4.1.14",
+    "web3": "^1.0.0-beta.36"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,6 +29,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "solc": "^0.4.25"
+    "solc": "^0.4.25",
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0"
   }
 }
