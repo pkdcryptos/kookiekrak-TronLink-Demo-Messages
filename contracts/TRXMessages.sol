@@ -41,7 +41,6 @@ contract TRXMessages
     {
         require(msg.value == feeToPost);
         
-        owner.transfer(msg.value);
         messages[current] = Message(
         {
             creator: msg.sender,

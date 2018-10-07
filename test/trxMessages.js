@@ -38,7 +38,7 @@ contract('TRXMessages', function(accounts)
     await trxMessagesInstance.tipMessage(0, {value: 420});
     const balanceAfter = new BigNumber(await new_web3.eth.getBalance(accounts[1]));
 
-    assert.equal(balanceAfter.minus(balanceBefore).toString(), Math.ceil(420 * .99));
+    assert.equal(balanceAfter.minus(balanceBefore).toString(), Math.ceil(420 * .99).toString());
   });
 
   it("should enforce owner only", async () =>
@@ -66,7 +66,7 @@ contract('TRXMessages', function(accounts)
     const balanceAfter = new BigNumber(await new_web3.eth.getBalance(accounts[0]));
     
     const gas = tx.receipt.gasUsed * txInfo.gasPrice;
-    console.log(gas);
-    assert.equal(balanceAfter.minus(balanceBefore).toString(), 1000000 + Math.floor(420 * .01) - gas);    
+    
+    assert.equal(balanceAfter.minus(balanceBefore).toString(), (1000000 + Math.floor(420 * .01) - gas).toString());    
   });
 });
