@@ -52,6 +52,7 @@ contract('TRXMessages', function(accounts)
     const gas = tx.receipt.gasUsed * txInfo.gasPrice;
 
     assert.equal(balanceAfter.minus(balanceBefore).toString(), (Math.ceil(420 * -.01) - gas).toString());
+    assert.equal((await trxMessagesInstance.messages(1))[2].toString(), "420");
   });
 
   it("should enforce owner only", async () =>
