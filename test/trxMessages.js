@@ -41,7 +41,7 @@ contract('TRXMessages', function(accounts)
     assert.equal(balanceAfter.minus(balanceBefore).toString(), Math.ceil(420 * .99).toString());
   });
   
-  it.only("should allow self-tip", async () =>
+  it("should allow self-tip", async () =>
   {
     await trxMessagesInstance.postMessage(testPost, {value: 1000000, from: accounts[1]});
     const balanceBefore = new BigNumber(await new_web3.eth.getBalance(accounts[1]));
@@ -82,5 +82,18 @@ contract('TRXMessages', function(accounts)
     const gas = tx.receipt.gasUsed * txInfo.gasPrice;
 
     assert.equal(balanceAfter.minus(balanceBefore).toString(), (1000000 + Math.floor(420 * .01) - gas).toString());    
+  });
+
+  it("should track the top 20 tips", async () =>
+  {
+    for(let i = 1; i < 21; i++)
+    {
+      await trxMessagesInstance.postMessage(testPost, {value: 1000000, from: accounts[1]});
+      await trxMessagesInstance.tipMessage(i, {value: 420, from: accounts[2]});
+    }
+    await trxMessagesInstance.postMessage(testPost, {value: 1000000, from: accounts[1]});
+    await trxMessagesInstance.tipMessage(21, {value: 1000, from: accounts[2]});
+
+    assert.equal((await trxMessagesInstance.topPosts(0)).toString(), "21");
   });
 });
