@@ -105,7 +105,7 @@ contract TRXMessages
             {
                 if(messages[topPosts[smallestIndex]].creator != 0)
                 {
-                    emit MessageRemovedFromTopPosts(_id);
+                    emit MessageRemovedFromTopPosts(topPosts[smallestIndex]);
                 }
                 emit MessageAddedToTopPosts(_id);
             }
