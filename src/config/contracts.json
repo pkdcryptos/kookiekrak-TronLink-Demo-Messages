@@ -1,6 +1,6 @@
 {
     "Migrations.sol:Migrations": {
-        "address": "41c3eb674fb9d2f7a070e08d1df322e1c9cdab03aa",
+        "address": "41256caebc0a9959659dc652892e4d66090fa98be8",
         "abi": [
             {
                 "constant": false,
@@ -67,7 +67,7 @@
         ]
     },
     "TRXMessages.sol:TRXMessages": {
-        "address": "41b76d0d6e4e2880de657a6bb6985b294be355d4a9",
+        "address": "41585fa109a93269c44498ef42bffbecbe6be779e6",
         "abi": [
             {
                 "constant": true,
@@ -200,6 +200,20 @@
             {
                 "constant": true,
                 "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
                 "name": "current",
                 "outputs": [
                     {
@@ -209,6 +223,20 @@
                 ],
                 "payable": false,
                 "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_owner",
+                        "type": "address"
+                    }
+                ],
+                "name": "changeOwner",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {

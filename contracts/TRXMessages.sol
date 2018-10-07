@@ -101,12 +101,12 @@ contract TRXMessages
 
         if(found)
         {
-            if(messages[topPosts[smallestIndex]].creator != 0)
-            {
-                emit MessageRemovedFromTopPosts(_id);
-            }
             if(topPosts[smallestIndex] != _id)
             {
+                if(messages[topPosts[smallestIndex]].creator != 0)
+                {
+                    emit MessageRemovedFromTopPosts(topPosts[smallestIndex]);
+                }
                 emit MessageAddedToTopPosts(_id);
             }
             topPosts[smallestIndex] = _id;
