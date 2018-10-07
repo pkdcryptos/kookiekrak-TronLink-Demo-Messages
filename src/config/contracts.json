@@ -1,6 +1,6 @@
 {
     "TRXMessages.sol:TRXMessages": {
-        "address": "414f85e889c3ad86045e3bd3fb138ef82cd77d9fa8",
+        "address": "41c3f2617b17038ea499f8c7443b6e2d4257383653",
         "abi": [
             {
                 "constant": true,
@@ -41,7 +41,58 @@
                 "constant": false,
                 "inputs": [
                     {
-                        "name": "id",
+                        "name": "_feeToPost",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "updateFeeToPost",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "feeToPost",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "minimumTip",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [],
+                "name": "withdraw",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_id",
                         "type": "uint256"
                     }
                 ],
@@ -49,6 +100,20 @@
                 "outputs": [],
                 "payable": true,
                 "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_minimumTip",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "updateMinimumTip",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
@@ -63,41 +128,6 @@
                 "outputs": [],
                 "payable": true,
                 "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [
-                    {
-                        "name": "id",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "getMessage",
-                "outputs": [
-                    {
-                        "name": "",
-                        "type": "address"
-                    },
-                    {
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "name": "",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "payable": false,
-                "stateMutability": "view",
                 "type": "function"
             },
             {
@@ -125,11 +155,7 @@
                 "name": "topPosts",
                 "outputs": [
                     {
-                        "name": "id",
-                        "type": "uint256"
-                    },
-                    {
-                        "name": "tips",
+                        "name": "",
                         "type": "uint256"
                     }
                 ],
@@ -152,7 +178,43 @@
                         "type": "uint256"
                     }
                 ],
-                "name": "MessageChange",
+                "name": "MessagePosted",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "MessageTipped",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "MessageAddedToTopPosts",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "MessageRemovedFromTopPosts",
                 "type": "event"
             }
         ]
