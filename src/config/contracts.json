@@ -1,6 +1,73 @@
 {
+    "Migrations.sol:Migrations": {
+        "address": "41c3eb674fb9d2f7a070e08d1df322e1c9cdab03aa",
+        "abi": [
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "new_address",
+                        "type": "address"
+                    }
+                ],
+                "name": "upgrade",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "last_completed_migration",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "completed",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "setCompleted",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            }
+        ]
+    },
     "TRXMessages.sol:TRXMessages": {
-        "address": "41c3f2617b17038ea499f8c7443b6e2d4257383653",
+        "address": "41b76d0d6e4e2880de657a6bb6985b294be355d4a9",
         "abi": [
             {
                 "constant": true,

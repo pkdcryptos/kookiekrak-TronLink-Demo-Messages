@@ -28,17 +28,30 @@ contract('TRXMessages', function(accounts)
   it("should get post", async () =>
   {
     await trxMessagesInstance.postMessage(testPost, {value: 1000000});
-    assert.equal((await trxMessagesInstance.messages(0))[1], testPost);
+    assert.equal((await trxMessagesInstance.messages(1))[1], testPost);
   });
 
   it("should tip", async () =>
   {
     await trxMessagesInstance.postMessage(testPost, {value: 1000000, from: accounts[1]});
     const balanceBefore = new BigNumber(await new_web3.eth.getBalance(accounts[1]));
-    await trxMessagesInstance.tipMessage(0, {value: 420});
+    await trxMessagesInstance.tipMessage(1, {value: 420});
+    const balanceAfter = new BigNumber(await new_web3.eth.getBalance(accounts[1]));
+    
+    assert.equal(balanceAfter.minus(balanceBefore).toString(), Math.ceil(420 * .99).toString());
+  });
+  
+  it.only("should allow self-tip", async () =>
+  {
+    await trxMessagesInstance.postMessage(testPost, {value: 1000000, from: accounts[1]});
+    const balanceBefore = new BigNumber(await new_web3.eth.getBalance(accounts[1]));
+    const tx = await trxMessagesInstance.tipMessage(1, {value: 420, from: accounts[1]});
     const balanceAfter = new BigNumber(await new_web3.eth.getBalance(accounts[1]));
 
-    assert.equal(balanceAfter.minus(balanceBefore).toString(), Math.ceil(420 * .99).toString());
+    const txInfo = await new_web3.eth.getTransaction(tx.tx);
+    const gas = tx.receipt.gasUsed * txInfo.gasPrice;
+
+    assert.equal(balanceAfter.minus(balanceBefore).toString(), (Math.ceil(420 * -.01) - gas).toString());
   });
 
   it("should enforce owner only", async () =>
@@ -55,18 +68,18 @@ contract('TRXMessages', function(accounts)
     assert.fail();
   });
 
-  it.only("should allow owner withdraw", async () =>
+  it("should allow owner withdraw", async () =>
   {
     await trxMessagesInstance.postMessage(testPost, {value: 1000000, from: accounts[1]});
-    await trxMessagesInstance.tipMessage(0, {value: 420, from: accounts[2]});
+    await trxMessagesInstance.tipMessage(1, {value: 420, from: accounts[2]});
     
     const balanceBefore = new BigNumber(await new_web3.eth.getBalance(accounts[0]));
     const tx = await trxMessagesInstance.withdraw({from: accounts[0]});
-    const txInfo = await new_web3.eth.getTransaction(tx.tx);
     const balanceAfter = new BigNumber(await new_web3.eth.getBalance(accounts[0]));
     
+    const txInfo = await new_web3.eth.getTransaction(tx.tx);
     const gas = tx.receipt.gasUsed * txInfo.gasPrice;
-    
+
     assert.equal(balanceAfter.minus(balanceBefore).toString(), (1000000 + Math.floor(420 * .01) - gas).toString());    
   });
 });

@@ -16,13 +16,13 @@ contract TRXMessages
     event MessageAddedToTopPosts(uint id);
     event MessageRemovedFromTopPosts(uint id);
 
-    uint public current = 0;
+    uint public current = 1;
     mapping(uint => Message) public messages;
 
     uint[20] public topPosts;
     uint public feeToPost;
     uint public minimumTip;
-    address owner;
+    address public owner;
 
     constructor() public
     {
@@ -39,7 +39,7 @@ contract TRXMessages
 
     function postMessage(string message) public payable 
     {
-        require(msg.value == feeToPost);
+        require(msg.value >= feeToPost);
         
         messages[current] = Message(
         {
@@ -50,25 +50,34 @@ contract TRXMessages
             time: now
         });
 
-        emit MessagePosted(current);
+        uint id = current;
+        emit MessagePosted(id);
 
         current++;
+
+        if(msg.value > feeToPost)
+        {
+            _tipMessage(id, msg.value - feeToPost);
+        }
     }
 
     function tipMessage(uint _id) public payable
     {
         require(msg.value >= minimumTip);
+        _tipMessage(_id, msg.value);
+    }
 
+    function _tipMessage(uint _id, uint _amount) internal
+    {
         Message storage m = messages[_id];
         
-        require(msg.sender != m.creator);
         require(m.creator != 0);
         
-        uint fee = msg.value / 100;
-        uint tip = msg.value - fee;
+        uint fee = _amount / 100;
+        uint tip = _amount - fee;
 
         m.creator.transfer(tip);
-        m.tips += msg.value;
+        m.tips += _amount;
         m.tippers += 1;
         
         bool found = false;
@@ -119,5 +128,10 @@ contract TRXMessages
     function withdraw() onlyOwner public
     {
         owner.transfer(address(this).balance);
+    }
+
+    function changeOwner(address _owner) onlyOwner public
+    {
+        owner = _owner;
     }
 }
