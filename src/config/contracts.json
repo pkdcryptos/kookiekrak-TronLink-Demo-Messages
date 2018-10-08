@@ -1,6 +1,6 @@
 {
     "TRXMessages.sol:TRXMessages": {
-        "address": "4189dea3f213ae879648317c172f5d26dfc42975ca",
+        "address": "414f85e889c3ad86045e3bd3fb138ef82cd77d9fa8",
         "abi": [
             {
                 "constant": true,
@@ -26,6 +26,10 @@
                     },
                     {
                         "name": "tippers",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "time",
                         "type": "uint256"
                     }
                 ],
@@ -56,12 +60,7 @@
                     }
                 ],
                 "name": "postMessage",
-                "outputs": [
-                    {
-                        "name": "out",
-                        "type": "uint256"
-                    }
-                ],
+                "outputs": [],
                 "payable": true,
                 "stateMutability": "payable",
                 "type": "function"
@@ -83,6 +82,10 @@
                     {
                         "name": "",
                         "type": "string"
+                    },
+                    {
+                        "name": "",
+                        "type": "uint256"
                     },
                     {
                         "name": "",
@@ -139,6 +142,18 @@
                 "payable": false,
                 "stateMutability": "nonpayable",
                 "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "name": "id",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "MessageChange",
+                "type": "event"
             }
         ]
     }
