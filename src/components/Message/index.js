@@ -1,11 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import './Message.scss';
-
-const tip = messageID => {
-
-};
 
 const Message = props => {
     const {
@@ -33,9 +31,11 @@ const Message = props => {
                         &#9733;
                     </div> }
                 </div>
-                <div className='body ss-container'>
-                    { message }
-                </div>
+                <Scrollbars style={{ width: 330, height: 85, marginBottom: 6 }} autoHide>
+                    <div className='body'>
+                        { message }
+                    </div>
+                </Scrollbars>
                 <div className='footer'>
                     <div className='timestamp'>
                         { moment(timestamp * 1000).fromNow() }

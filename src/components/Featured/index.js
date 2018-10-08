@@ -1,6 +1,8 @@
 import React from 'react';
 import Message from 'components/Message';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import './Featured.scss';
 
 const Featured = props => {
@@ -25,9 +27,11 @@ const Featured = props => {
 
     return (
         <div className='featured'>
-            <div className='scrollable ss-container'>
-                { messages }
-            </div>
+            <Scrollbars style={{ height: 220, width: '100%' }} autoHide>
+                <div className='scrollable'>
+                    { messages }
+                </div>
+            </Scrollbars>            
         </div>
     );
 };

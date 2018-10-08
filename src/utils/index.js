@@ -14,7 +14,7 @@ const utils = {
     transformMessage(message) {
         return {
             tips: {
-                amount: message.tips.toNumber(),
+                amount: message.tips,
                 count: message.tippers.toNumber()
             },
             owner: this.tronWeb.address.fromHex(message.creator),

@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 
 import './App.scss';
 
+const FOUNDATION_ADDRESS = 'TWiWt5SEDzaEqS6kE5gandWMNfxR2B5xzg';
+
 class App extends React.Component {
     state = {
         tronWeb: {
@@ -52,7 +54,7 @@ class App extends React.Component {
                 
             const timer = setInterval(() => {
                 if(tries >= 10) {
-                    const TRONGRID_API = 'https://api.trongrid.io';
+                    const TRONGRID_API = 'https://api.shasta.trongrid.io';
 
                     window.tronWeb = new TronWeb(
                         TRONGRID_API,
@@ -85,17 +87,27 @@ class App extends React.Component {
             }, 100);
         });
 
-        window.tronWeb.on('addressChanged', () => {
-            if(this.state.tronWeb.loggedIn)
-                return;
+        if(!this.state.tronWeb.loggedIn) {
+            // Set default address (foundation address) used for contract calls
+            // Directly overwrites the address object as TronLink disabled the
+            // function call
+            window.tronWeb.defaultAddress = {
+                hex: window.tronWeb.address.toHex(FOUNDATION_ADDRESS),
+                base58: FOUNDATION_ADDRESS
+            };
 
-            this.setState({
-                tronWeb: {
-                    installed: true,
-                    loggedIn: true
-                }
+            window.tronWeb.on('addressChanged', () => {
+                if(this.state.tronWeb.loggedIn)
+                    return;
+    
+                this.setState({
+                    tronWeb: {
+                        installed: true,
+                        loggedIn: true
+                    }
+                });
             });
-        });
+        }
 
         Utils.setTronWeb(window.tronWeb);
 
@@ -291,10 +303,10 @@ class App extends React.Component {
 
     renderMessageInput() {
         if(!this.state.tronWeb.installed)
-            return <TronLinkGuide installed />;
+            return <TronLinkGuide />;
 
         if(!this.state.tronWeb.loggedIn)
-            return <TronLinkGuide />;
+            return <TronLinkGuide installed />;
 
         return (
             <div className={ 'messageInput' + (this.state.currentMessage.loading ? ' loading' : '') }>

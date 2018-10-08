@@ -6,6 +6,7 @@
     "moment": "^2.22.2",
     "node-sass": "^4.9.3",
     "react": "^16.5.2",
+    "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4",
     "sweetalert2": "^7.28.4",
@@ -30,9 +31,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "solc": "^0.4.25",
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "solc": "^0.4.25"
   }
 }
