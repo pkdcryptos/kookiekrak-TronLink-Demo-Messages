@@ -28,17 +28,17 @@ const utils = {
         for(let i = 0; i < 20; i++) {
             const message = await this.contract.topPosts(i).call();
 
-            if(message.tips.toNumber() === 0)
+            if(message.toNumber() === 0)
                 break; // End of tips array
 
             featured.push(
-                message.id.toNumber()
+                message.toNumber()
             );
         }
 
         // Fetch Max(30) most recent messages
         const totalMessages = (await this.contract.current().call()).toNumber();
-        const min = Math.max(0, totalMessages - 30);
+        const min = Math.max(1, totalMessages - 30);
 
         const messageIDs = [ ...new Set([
             ...new Array(totalMessages - min).fill().map((_, index) => min + index),
@@ -50,13 +50,11 @@ const utils = {
         ))).then(messages => messages.forEach((message, index) => {
             const messageID = +messageIDs[index];
 
-            recent[+messageID] = this.transformMessage(message);
+            recent[messageID] = this.transformMessage(message);
         }));
 
         return {
-            featured: featured.sort((a, b) => (
-                recent[b].timestamp - recent[a].timestamp
-            )),
+            featured,
             recent
         };
     },
@@ -69,7 +67,7 @@ const utils = {
             recent[b].timestamp - recent[a].timestamp
         ));
 
-        recent[+messageID] = this.transformMessage(message);
+        recent[messageID] = this.transformMessage(message);
 
         if(vulnerable.length > 30) {
             const removed = vulnerable.splice(0, vulnerable.length - 30);

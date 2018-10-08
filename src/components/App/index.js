@@ -105,13 +105,67 @@ class App extends React.Component {
 
     // Polls blockchain for smart contract events
     startEventListener() {
-        Utils.contract.MessageChange().watch((err, { result }) => {
+        Utils.contract.MessagePosted().watch((err, { result }) => {
             if(err)
                 return console.error('Failed to bind event listener:', err);
 
-            console.log('Detected new message change:', result.id);
+            console.log('Detected new message:', result.id);
             this.fetchMessage(+result.id);
         });
+
+        /*Utils.contract.MessageTipped().watch((err, { result }) => {
+            if(err)
+                return console.error('Failed to bind event listener:', err);
+
+            console.log('Message was tipped:', result.id);
+            this.fetchMessage(+result.id);
+        });
+
+        Utils.contract.MessageAddedToTopPosts().watch((err, { result }) => {
+            if(err)
+                return console.error('Failed to bind event listener:', err);
+
+            console.log('Message was added to featured posts:', result.id);
+            this.fetchMessage(+result.id);
+
+            const {
+                recent,
+                featured
+            } = this.state.messages;
+
+            if(featured.includes(+result.id))
+                return;
+
+            this.setState({
+                messages: {
+                    recent: this.state.messages.recent,
+                    featured: [ ...featured, +result.id ]
+                }
+            });
+        });
+
+        Utils.contract.MessageRemovedFromTopPosts().watch((err, { result }) => {
+            if(err)
+                return console.error('Failed to bind event listener:', err);
+
+            console.log('Message was removed from featured posts:', result.id);
+            this.fetchMessage(+result.id);
+
+            const {
+                recent,
+                featured
+            } = this.state.messages;
+
+            if(!featured.includes(+result.id))
+                return;
+
+            this.setState({
+                messages: {
+                    recent: this.state.messages.recent,
+                    featured: featured.filter(messageID => messageID !== +result.id)
+                }
+            });
+        });*/
     }
 
     async fetchMessages() {
