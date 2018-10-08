@@ -1,0 +1,11 @@
+.featured {
+    max-height: 174px;
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 30px;
+
+    .scrollable {
+        display: flex;
+        flex-direction: row;
+    }
+}
