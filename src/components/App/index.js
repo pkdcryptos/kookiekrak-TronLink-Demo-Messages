@@ -55,7 +55,7 @@ class App extends React.Component {
 
             const timer = setInterval(() => {
                 if(tries >= 10) {
-                    const TRONGRID_API = 'https://api.shasta.trongrid.io';
+                    const TRONGRID_API = 'https://api.trongrid.io';
 
                     window.tronWeb = new TronWeb(
                         TRONGRID_API,
