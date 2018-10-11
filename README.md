@@ -1,4 +1,4 @@
-#TRON Message Board
+## TRON Message Board
 
 [View online demo](https://tronwatch.github.io/TronLink-Demo-Messages/)
 
