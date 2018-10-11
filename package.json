@@ -16,10 +16,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rimraf docs && move-cli build docs",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "cd build && node solidity_compile.js"
+    "deploy": "cd scripts && node solidity_compile.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,6 +34,8 @@
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
+    "move-cli": "^1.2.0",
+    "rimraf": "^2.6.2",
     "solc": "^0.4.25"
   }
 }
