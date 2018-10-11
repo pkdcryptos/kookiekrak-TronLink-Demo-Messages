@@ -17,10 +17,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && rimraf docs && move-cli build docs",
+    "build": "react-scripts build && npx rimraf docs && npx move-cli build docs",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "cd scripts && node solidity_compile.js"
+    "deployContract": "cd scripts && node solidity_compile.js"
   },
   "eslintConfig": {
     "extends": "react-app"
