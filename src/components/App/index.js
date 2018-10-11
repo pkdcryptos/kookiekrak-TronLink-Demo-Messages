@@ -51,7 +51,7 @@ class App extends React.Component {
             }
 
             let tries = 0;
-                
+
             const timer = setInterval(() => {
                 if(tries >= 10) {
                     const TRONGRID_API = 'https://api.shasta.trongrid.io';
@@ -78,7 +78,7 @@ class App extends React.Component {
 
                 if(!tronWebState.installed)
                     return tries++;
-                    
+
                 this.setState({
                     tronWeb: tronWebState
                 });
@@ -99,7 +99,7 @@ class App extends React.Component {
             window.tronWeb.on('addressChanged', () => {
                 if(this.state.tronWeb.loggedIn)
                     return;
-    
+
                 this.setState({
                     tronWeb: {
                         installed: true,
@@ -238,7 +238,7 @@ class App extends React.Component {
 
         Utils.contract.postMessage(message).send({
             shouldPollResponse: true,
-            callValue: 1000000
+            callValue: 0
         }).then(res => Swal({
             title: 'Post Created',
             type: 'success'
@@ -294,7 +294,7 @@ class App extends React.Component {
                 });
             }
         });
-        
+
         value && Swal({
             title: 'Message Tipped',
             type: 'success'
@@ -318,25 +318,25 @@ class App extends React.Component {
                     <div className='warning'>
                         Posting a message will cost 1 TRX and network fees
                     </div>
-                    <div 
+                    <div
                         className={ 'sendButton' + (!!this.state.currentMessage.message.trim().length ? '' : ' disabled') }
                         onClick={ this.onMessageSend }
                     >
                         Post Message
                     </div>
-                </div>                
+                </div>
             </div>
         );
     }
 
-    render() {        
+    render() {
         const {
             recent,
             featured
         } = this.state.messages;
 
         const messages = Object.entries(recent).sort((a, b) => b[1].timestamp - a[1].timestamp).map(([ messageID, message ]) => (
-            <Message 
+            <Message
                 message={ message }
                 featured={ featured.includes(+messageID) }
                 key={ messageID }

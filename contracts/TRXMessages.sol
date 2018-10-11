@@ -1,8 +1,8 @@
 pragma solidity ^0.4.24;
 
-contract TRXMessages 
+contract TRXMessages
 {
-    struct Message 
+    struct Message
     {
         address creator;
         string message;
@@ -27,8 +27,8 @@ contract TRXMessages
     constructor() public
     {
         owner = msg.sender;
-        feeToPost = 1000000;
-        minimumTip = 100;
+        feeToPost = 0;
+        minimumTip = 1;
     }
 
     modifier onlyOwner()
@@ -37,10 +37,10 @@ contract TRXMessages
         _;
     }
 
-    function postMessage(string message) public payable 
+    function postMessage(string message) public payable
     {
         require(msg.value >= feeToPost);
-        
+
         messages[current] = Message(
         {
             creator: msg.sender,
@@ -70,16 +70,17 @@ contract TRXMessages
     function _tipMessage(uint _id, uint _amount) internal
     {
         Message storage m = messages[_id];
-        
+
         require(m.creator != 0);
-        
-        uint fee = _amount / 100;
+
+        //uint fee = _amount / 100;
+        uint fee = 0;
         uint tip = _amount - fee;
 
         m.creator.transfer(tip);
         m.tips += _amount;
         m.tippers += 1;
-        
+
         bool found = false;
         uint smallestIndex = 0;
         uint smallestValue = ~uint256(0);
