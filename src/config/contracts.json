@@ -1,6 +1,6 @@
 {
     "Migrations.sol:Migrations": {
-        "address": "41c97de1a52e1613934b4083cb61d7d85aac8686af",
+        "address": "414587f71ee0a12665ae6e883c1e4c20be38fc3b83",
         "abi": [
             {
                 "constant": false,
@@ -67,7 +67,7 @@
         ]
     },
     "TRXMessages.sol:TRXMessages": {
-        "address": "41bfbd1dd894a71766ed49da97e5f92fc408975cd1",
+        "address": "41a4997124a328a4615eab437cede31da47a31b375",
         "abi": [
             {
                 "constant": true,
