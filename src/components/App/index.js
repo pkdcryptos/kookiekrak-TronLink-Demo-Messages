@@ -348,6 +348,17 @@ class App extends React.Component {
 
         return (
             <div className='kontainer'>
+                <div className='header'>
+                    <a href='https://tronwatch.market' target='_blank'><img className='banner' src={require('../../img/banner.png')} /></a>
+                </div>
+                <div className='header'>
+                    <p>
+                        This DApp allows you to post messages along with tipping others or receiving tips.<br/>
+                        We don't take any fee on this, the only cost are TRON transaction fees and the amount you tip.<br/>
+                        Want to build your own DApp? The code to this demo is available on <a target='_blank' href='https://github.com/TronWatch/TronLink-Demo-Messages/'>GitHub</a>
+                    </p>
+                </div>
+
                 { this.renderMessageInput() }
 
                 <div className='header'>

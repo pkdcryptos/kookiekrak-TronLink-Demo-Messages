@@ -94,25 +94,25 @@ h1 {
             color: #FFFFFF;
             font-weight: 500;
             border-radius: 3px;
-            display: inline-block;            
+            display: inline-block;
             transition: all 200ms ease;
             opacity: 0.4;
         }
-    
+
         .sendButton:not(.disabled) {
             cursor: pointer;
             opacity: 1;
         }
-    
+
         .sendButton:not(.disabled):hover {
             background: #0062cc;
             transform: translateY(-2px);
             box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.2);
         }
-    
+
         .sendButton:not(.disabled):focus {
             background: #0973e5;
-        }   
+        }
     }
 }
 
@@ -138,6 +138,10 @@ h1 {
 .messageInput.loading::after {
     opacity: 1;
     visibility: visible;
+}
+
+.banner {
+  max-width:100%;
 }
 
 /*::-webkit-scrollbar {
