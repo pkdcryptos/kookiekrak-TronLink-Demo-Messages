@@ -350,9 +350,6 @@ class App extends React.Component {
         return (
             <div className='kontainer'>
                 <div className='header white'>
-                    <a href='https://tronwatch.market' target='_blank' rel='noopener noreferrer'>
-                        <img className='banner' src={ banner } alt='TronWatch Market ICO' />
-                    </a>
                     <p>
                         <strong>Tron Message Board</strong> is a DApp which allows you to post messages
                         along with tipping others or receiving tips. There is no additional cost associated
