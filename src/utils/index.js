@@ -1,14 +1,12 @@
-import contracts from 'config/contracts';
-
-const contract = contracts['TRXMessages.sol:TRXMessages'];
+const contractAddress = 'TUroB5BWZYzGZnzzRzjxyNqRXtvkbBuJQM'
 
 const utils = {
     tronWeb: false,
     contract: false,
 
-    setTronWeb(tronWeb) {
+    async setTronWeb(tronWeb) {
         this.tronWeb = tronWeb;
-        this.contract = tronWeb.contract(contract.abi, contract.address)
+        this.contract = await tronWeb.contract().at(contractAddress)
     },
 
     transformMessage(message) {

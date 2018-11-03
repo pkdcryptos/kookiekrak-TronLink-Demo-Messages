@@ -11,15 +11,13 @@
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4",
     "sweetalert2": "^7.28.4",
-    "tronbox": "^2.0.2",
-    "tronweb": "^2.0.12"
+    "tronweb": "^2.0.30"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && npx rimraf docs && npx move-cli build docs",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deployContract": "cd scripts && node solidity_compile.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

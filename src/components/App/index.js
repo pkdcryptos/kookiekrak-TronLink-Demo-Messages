@@ -110,7 +110,7 @@ class App extends React.Component {
             });
         }
 
-        Utils.setTronWeb(window.tronWeb);
+        await Utils.setTronWeb(window.tronWeb);
 
         this.startEventListener();
         this.fetchMessages();
