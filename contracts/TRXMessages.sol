@@ -1,10 +1,10 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.5.4;
 
 contract TRXMessages
 {
     struct Message
     {
-        address creator;
+        address payable creator;
         string message;
         uint tips;
         uint tippers;
@@ -22,7 +22,7 @@ contract TRXMessages
     uint[20] public topPosts;
     uint public feeToPost;
     uint public minimumTip;
-    address public owner;
+    address payable public owner;
 
     constructor() public
     {
@@ -37,7 +37,7 @@ contract TRXMessages
         _;
     }
 
-    function postMessage(string message) public payable
+    function postMessage(string memory message) public payable
     {
         require(msg.value >= feeToPost);
 
@@ -71,7 +71,7 @@ contract TRXMessages
     {
         Message storage m = messages[_id];
 
-        require(m.creator != 0);
+        require(m.creator != address(0));
 
         //uint fee = _amount / 100;
         uint fee = 0;
@@ -104,7 +104,7 @@ contract TRXMessages
         {
             if(topPosts[smallestIndex] != _id)
             {
-                if(messages[topPosts[smallestIndex]].creator != 0)
+                if(messages[topPosts[smallestIndex]].creator != address(0))
                 {
                     emit MessageRemovedFromTopPosts(topPosts[smallestIndex]);
                 }
@@ -131,7 +131,7 @@ contract TRXMessages
         owner.transfer(address(this).balance);
     }
 
-    function changeOwner(address _owner) onlyOwner public
+    function changeOwner(address payable _owner) onlyOwner public
     {
         owner = _owner;
     }
